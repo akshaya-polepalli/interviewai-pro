@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    @apply font-body bg-canvas text-ink;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-ink;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply rounded-2xl border border-white/10 bg-white/5 shadow-glass backdrop-blur-xl;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-5 py-2.5
+      font-medium text-canvas transition hover:bg-accent-soft focus-visible:outline
+      focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/15
+      bg-transparent px-5 py-2.5 font-medium text-ink transition hover:bg-white/5
+      focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+      focus-visible:outline-accent;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 text-ink
+      outline-none ring-accent focus:ring-2;
+  }
+
+  /* Windows/Chrome native option popups stay light; force dark ink so labels stay readable. */
+  select.field option {
+    background-color: #ffffff;
+    color: #0b1220;
+  }
+}
