@@ -1,19 +1,21 @@
 # InterviewAI Pro — free public deploy on Render
 # Docs: docs/deploy-free.md
 #
-# Static sites cannot set plan/region (Render schema additionalProperties: false).
+# API uses native Python (free-tier friendly). Static publish path is repo-root relative.
 
 services:
   - type: web
     name: interviewai-pro-api
-    runtime: docker
+    runtime: python
     plan: free
     region: oregon
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
-    dockerCommand: sh scripts/render_start.sh
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: sh scripts/render_start.sh
     healthCheckPath: /api/v1/health
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
@@ -25,7 +27,7 @@ services:
       - key: STORAGE_BACKEND
         value: local
       - key: STORAGE_LOCAL_PATH
-        value: /app/storage/local
+        value: ./storage/local
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
@@ -46,9 +48,8 @@ services:
   - type: web
     name: interviewai-pro-web
     runtime: static
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
     routes:
       - type: rewrite
         source: /*
@@ -58,3 +59,5 @@ services:
         value: https://interviewai-pro-api.onrender.com/api/v1
       - key: VITE_WS_BASE_URL
         value: wss://interviewai-pro-api.onrender.com
+      - key: SKIP_INSTALL_DEPS
+        value: "true"

@@ -9,10 +9,13 @@ Make InterviewAI Pro available as a public HTTPS website on free tiers.
 | Piece | Service |
 |-------|---------|
 | Frontend | Render Static Site → `https://interviewai-pro-web.onrender.com` |
-| API | Render Web Service (Docker) → `https://interviewai-pro-api.onrender.com` |
+| API | Render Web Service (**Python** free runtime) → `https://interviewai-pro-api.onrender.com` |
 | Postgres | [Neon](https://neon.tech) free |
 | Redis | [Upstash](https://upstash.com) free |
 | Jobs | Inline (`FORCE_SYNC_JOBS=true`) — no Celery worker |
+
+> JavaScript coding problems need Node. On the free Python runtime only **Python** submissions are guaranteed; use Python in the editor for the public demo.
+
 
 Blueprint: [`render.yaml`](../render.yaml)
 
