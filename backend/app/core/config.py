@@ -127,7 +127,7 @@ class Settings(BaseSettings):
     @property
     def sqlalchemy_database_uri(self) -> str:
         if self.database_url:
-            url = self.database_url.strip()
+            url = self.database_url.strip().strip('"').strip("'")
             # Neon / Heroku style URLs → SQLAlchemy + psycopg3
             if url.startswith("postgresql+psycopg://"):
                 return url
@@ -144,7 +144,9 @@ class Settings(BaseSettings):
     @computed_field  # type: ignore[prop-decorator]
     @property
     def redis_connection_url(self) -> str:
-        return self.redis_url or f"redis://{self.redis_host}:{self.redis_port}/0"
+        if self.redis_url:
+            return self.redis_url.strip().strip('"').strip("'")
+        return f"redis://{self.redis_host}:{self.redis_port}/0"
 
     @computed_field  # type: ignore[prop-decorator]
     @property

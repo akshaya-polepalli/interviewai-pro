@@ -2,10 +2,25 @@
 
 from __future__ import annotations
 
+import re
 from datetime import datetime
+from typing import Annotated
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
+from pydantic import AfterValidator, BaseModel, ConfigDict, Field, field_validator
+
+# Allow demo domains like *.local (EmailStr rejects reserved TLDs).
+_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
+
+def _normalize_email(value: str) -> str:
+    email = value.strip().lower()
+    if not _EMAIL_RE.match(email):
+        raise ValueError("Invalid email address")
+    return email
+
+
+AppEmail = Annotated[str, AfterValidator(_normalize_email)]
 
 
 class UserPublic(BaseModel):
@@ -24,7 +39,7 @@ class UserPublic(BaseModel):
 
 
 class RegisterRequest(BaseModel):
-    email: EmailStr
+    email: AppEmail
     full_name: str = Field(min_length=2, max_length=200)
     password: str = Field(min_length=8, max_length=128)
 
@@ -47,7 +62,7 @@ class RegisterRequest(BaseModel):
 
 
 class LoginRequest(BaseModel):
-    email: EmailStr
+    email: AppEmail
     password: str = Field(min_length=1, max_length=128)
 
 
@@ -74,7 +89,7 @@ class VerifyEmailRequest(BaseModel):
 
 
 class ForgotPasswordRequest(BaseModel):
-    email: EmailStr
+    email: AppEmail
 
 
 class ResetPasswordRequest(BaseModel):
