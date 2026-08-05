@@ -12,7 +12,7 @@ import type { StudyPlanDetail, StudyPlanTask } from "@/types/coach";
 function extractError(err: unknown): string {
   if (err instanceof AxiosError) {
     const body = err.response?.data as ApiErrorBody | undefined;
-    return body?.message || body?.detail || err.message;
+    return body?.error?.message || body?.message || body?.detail || err.message;
   }
   if (err instanceof Error) return err.message;
   return "Something went wrong";

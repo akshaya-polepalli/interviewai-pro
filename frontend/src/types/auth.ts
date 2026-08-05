@@ -26,7 +26,9 @@ export type MessageResponse = {
 };
 
 export type ApiErrorBody = {
-  error: {
+  message?: string;
+  detail?: string;
+  error?: {
     code: string;
     message: string;
     details?: Record<string, unknown>;
