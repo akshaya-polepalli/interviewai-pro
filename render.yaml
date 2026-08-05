@@ -1,8 +1,7 @@
 # InterviewAI Pro — free public deploy on Render
 # Docs: docs/deploy-free.md
 #
-# After first deploy, set FRONTEND_URL and CORS_ORIGINS to the static site URL
-# (https://interviewai-pro-web.onrender.com) in the API service env vars.
+# Static sites cannot set plan/region (Render schema additionalProperties: false).
 
 services:
   - type: web
@@ -47,8 +46,6 @@ services:
   - type: web
     name: interviewai-pro-web
     runtime: static
-    plan: free
-    region: oregon
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
