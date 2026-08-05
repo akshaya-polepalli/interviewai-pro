@@ -155,7 +155,8 @@ class CodingService:
         )
         self.db.commit()
 
-        if not payload.sync:
+        run_sync = payload.sync or self.settings.force_sync_jobs
+        if not run_sync:
             from app.workers.tasks import run_submission_task
 
             task = run_submission_task.delay(str(submission.id))

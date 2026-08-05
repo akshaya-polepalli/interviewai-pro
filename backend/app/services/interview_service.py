@@ -420,7 +420,8 @@ class InterviewService:
             self.db.expire_all()
             return to_detail(self._owned(user_id, interview_id))
 
-        if sync:
+        run_sync = sync or self.settings.force_sync_jobs
+        if run_sync:
             return self.evaluate(user_id=user_id, interview_id=interview_id, sync=True)
 
         from app.workers.tasks import evaluate_interview_task
@@ -444,7 +445,8 @@ class InterviewService:
         ):
             raise ConflictError("Interview must be in progress or completed to evaluate")
 
-        if not sync:
+        run_sync = sync or self.settings.force_sync_jobs
+        if not run_sync:
             from app.workers.tasks import evaluate_interview_task
 
             if status == InterviewStatus.IN_PROGRESS.value:

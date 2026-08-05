@@ -119,11 +119,23 @@ class Settings(BaseSettings):
     stripe_price_team: str = ""
     billing_force_local: bool = True
 
+    # ----- Free / serverless deploy -----
+    # When true, never queue Celery; run coding/resume/report/interview jobs inline.
+    force_sync_jobs: bool = False
+
     @computed_field  # type: ignore[prop-decorator]
     @property
     def sqlalchemy_database_uri(self) -> str:
         if self.database_url:
-            return self.database_url
+            url = self.database_url.strip()
+            # Neon / Heroku style URLs → SQLAlchemy + psycopg3
+            if url.startswith("postgresql+psycopg://"):
+                return url
+            if url.startswith("postgres://"):
+                return "postgresql+psycopg://" + url[len("postgres://") :]
+            if url.startswith("postgresql://"):
+                return "postgresql+psycopg://" + url[len("postgresql://") :]
+            return url
         return (
             f"postgresql+psycopg://{self.postgres_user}:{self.postgres_password}"
             f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"

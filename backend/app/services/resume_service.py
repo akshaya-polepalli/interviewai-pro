@@ -149,7 +149,7 @@ class ResumeService:
         self.resumes.save(resume)
         self.db.commit()
 
-        if sync:
+        if sync or self.settings.force_sync_jobs:
             analysis = self.process_resume(
                 resume_id=resume.id,
                 target_role=target_role,

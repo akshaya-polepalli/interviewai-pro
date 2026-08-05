@@ -19,7 +19,8 @@ RUN pip install --upgrade pip \
 
 COPY . .
 
-RUN mkdir -p /app/storage/local \
+RUN sed -i 's/\r$//' scripts/*.sh \
+    && mkdir -p /app/storage/local \
     && adduser --disabled-password --gecos "" appuser \
     && chown -R appuser:appuser /app
 
@@ -34,6 +35,6 @@ HEALTHCHECK --interval=15s --timeout=5s --start-period=20s --retries=5 \
 FROM base AS development
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 
-# Production — no reload, multi-worker capable (override workers via compose)
+# Production — listen on $PORT (Render overrides CMD via dockerCommand for migrate+seed)
 FROM base AS production
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers 1"]

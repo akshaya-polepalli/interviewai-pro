@@ -3,9 +3,20 @@
 AI-powered interview prep SaaS — FastAPI, React, Postgres, Redis, Celery.
 
 > **Current milestone:** Module 16 — GitHub publish readiness  
-> Architecture: [`docs/system-architecture.md`](docs/system-architecture.md) · Demo: [`docs/DEMO.md`](docs/DEMO.md) · Publish: [`docs/PUBLISH.md`](docs/PUBLISH.md)
+> Architecture: [`docs/system-architecture.md`](docs/system-architecture.md) · Demo: [`docs/DEMO.md`](docs/DEMO.md) · Publish: [`docs/PUBLISH.md`](docs/PUBLISH.md)  
+> **Free public hosting:** [`docs/deploy-free.md`](docs/deploy-free.md)
 
 Production-shaped monorepo you can run locally, walk through in an interview, and put on GitHub.
+
+### Live demo (after free Render deploy)
+
+| | URL |
+|--|-----|
+| App | https://interviewai-pro-web.onrender.com |
+| API docs | https://interviewai-pro-api.onrender.com/docs |
+
+Demo login: `demo@interviewai.local` / `DemoPass1`  
+First visit after idle time may take ~1 minute (free-tier cold start).
 
 ---
 
@@ -96,6 +107,10 @@ docker compose -f docker-compose.prod.yml exec api python -m app.db.demo_seed
 ```
 
 Open **http://localhost** — details in [`docs/production.md`](docs/production.md)
+
+### Free public website
+
+Deploy without paying for hosting: [`docs/deploy-free.md`](docs/deploy-free.md) (Render + Neon + Upstash).
 
 ---
 

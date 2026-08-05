@@ -99,7 +99,8 @@ class ReportService:
         self.repo.create(report)
         self.db.commit()
 
-        if not payload.sync:
+        run_sync = payload.sync or self.settings.force_sync_jobs
+        if not run_sync:
             from app.workers.tasks import generate_report_task
 
             generate_report_task.delay(str(report.id))
