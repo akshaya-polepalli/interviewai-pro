@@ -19,7 +19,10 @@ const TARGET_ROLE_OPTIONS = [
   "devops_engineer",
   "student",
   "other",
-].map((role) => ({ value: role, label: role.replaceAll("_", " ") }));
+].map((role) => ({
+  value: role,
+  label: role.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+}));
 
 export function ResumesPage() {
   const queryClient = useQueryClient();

@@ -13,6 +13,8 @@ export default defineConfig({
     host: true,
     port: 5173,
     strictPort: true,
+    // Bind mounts from Windows hosts don't emit inotify events inside the container.
+    watch: { usePolling: true, interval: 300 },
   },
   preview: {
     host: true,

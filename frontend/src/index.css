@@ -41,6 +41,24 @@
       outline-none ring-accent focus:ring-2;
   }
 
+  .select-dropdown {
+    scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+    scrollbar-width: thin;
+  }
+
+  .select-dropdown::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .select-dropdown::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.25);
+    border-radius: 9999px;
+  }
+
+  .select-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
   /* Windows/Chrome native option popups stay light; force dark ink so labels stay readable. */
   select.field option {
     background-color: #ffffff;

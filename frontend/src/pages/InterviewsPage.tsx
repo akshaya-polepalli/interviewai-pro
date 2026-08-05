@@ -26,7 +26,10 @@ const ROLE_OPTIONS = [
   "ml_engineer",
   "devops_engineer",
   "student",
-].map((r) => ({ value: r, label: r.replaceAll("_", " ") }));
+].map((r) => ({
+  value: r,
+  label: r.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+}));
 
 const COMPANY_OPTIONS = [
   "general",
